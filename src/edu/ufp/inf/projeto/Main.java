@@ -23,8 +23,8 @@ public class Main{
         Turma bhi = new Turma("bhi");
         Turma ghe = new Turma("ghe");
 
-        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2), bhi);
-        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3), ghe);
+        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2), sala104, bhi);
+        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3), sala104, ghe);
 
         Unidade_Curricular LP = new Unidade_Curricular("LP", 9);
         Unidade_Curricular AED = new Unidade_Curricular("AED", 9);

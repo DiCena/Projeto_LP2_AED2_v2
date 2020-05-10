@@ -456,11 +456,12 @@ public class Universidade {
             String hora_inicio = texto[0];
             String hora_fim = texto[1];
             Turma t = null;
+            Sala s = null;
 
             //SimpleDateFormat formatter = new SimpleDateFormat("hh-nn-e", Locale.ENGLISH);
             //Date date = formatter.parse(hora_inicio); 
 
-            Aula aula = new Aula(new Date(), new Date(), t);
+            Aula aula = new Aula(new Date(), new Date(), s, t);
             aulas.put(id, aula);
             id++;
         }
