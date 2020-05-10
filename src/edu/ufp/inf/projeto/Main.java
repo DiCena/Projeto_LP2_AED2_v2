@@ -20,18 +20,21 @@ public class Main{
 
         Sala sala104 = new Sala(5, 80, 5, 1);
 
-        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2), sala104);
-        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3), sala104);
+        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2));
+        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3));
 
-        Turma bhi = new Turma("bhi", rui, "lp");
-        Turma ghe = new Turma("ghe", beatriz, "aed");
+        Turma bhi = new Turma("bhi");
+        Turma ghe = new Turma("ghe");
 
         Unidade_Curricular LP = new Unidade_Curricular("LP", 9);
         Unidade_Curricular AED = new Unidade_Curricular("AED", 9);
 
+        LinearProbingHashST<Integer,Aula> aulas = new LinearProbingHashST<>();
+        aulas.put(0 ,bhi1);
+
         LinearProbingHashST<String,Turma> turmaLP = new LinearProbingHashST<>();
-        turmaLP.put("0",bhi);
-        turmaLP.put("1",ghe);
+        turmaLP.put("bhi",bhi);
+        turmaLP.put("ghe",ghe);
 
         LP.setTurmas(turmaLP);
 
@@ -56,27 +59,35 @@ public class Main{
         alunos.put(0,ana);
         alunos.put(1,pedro);
 
-        ufp.setUnidades_curriculares(uc);
-        ufp.setSalas(salas);
-        ufp.setProfessores(professores);
+        //ufp.setTurmas(turmaLP);
+        //ufp.setAulas(aulas);
+        //ufp.setUnidades_curriculares(uc);
+        //ufp.setSalas(salas);
+        //ufp.setProfessores(professores);
         //ufp.setAlunos(alunos);
-        ufp.readFileAlunos();
 
-        for (Integer key : ufp.getAlunos().keys()) {
-            //Aluno(String nome, String email, Date data_nascimento, String morada, int numero)
-            System.out.println(ufp.getAlunos().get(key).getNome() + ";" + ufp.getAlunos().get(key).getEmail() + ";" + ufp.getAlunos().get(key).getData_nascimento() + ";"
-                    + ufp.getAlunos().get(key).getMorada() + ";" + ufp.getAlunos().get(key).getNumero());
-        }
+        ufp.readFileAlunos();
+        ufp.readFileProfessores();
+        ufp.readFileAulas();
+        ufp.readFileTurma();
+        ufp.readFileUC();
+        ufp.readFileSala();
 
         //System.out.println(ufp.toString());
 
         ufp.dumpAlunos();
         ufp.dumpProfessores();
         ufp.dumpUC();
-        //ufp.dumpTurma();
-        //ufp.dumpAula();
+        ufp.dumpTurma();
+        ufp.dumpAula();
         ufp.dumpSala();
 
+        ufp.printLinearProbingPrintAlunos();
+        ufp.printLinearProbingPrintProfessor();
+        ufp.printLinearProbingPrintTurma();
+        ufp.printLinearProbingPrintAula();
+        ufp.printLinearProbingPrintUC();
+        ufp.printLinearProbingPrintSala();
 
     }
 }

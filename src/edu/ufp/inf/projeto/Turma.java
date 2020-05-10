@@ -7,15 +7,12 @@ public class Turma {
   private String codigo;
   private Professor professor;
   private LinearProbingHashST<Integer,Aluno> alunos;
-  private String uc;
+  private Unidade_Curricular uc;
   private Aula aula;
 
 
-  public Turma(String codigo, Professor professor, String uc, Aula aula) {
+  public Turma(String codigo) {
         this.codigo = codigo;
-        this.professor = professor;
-        this.uc = uc;
-        this.aula = aula;
   }
 
   /**
@@ -134,21 +131,21 @@ public class Turma {
                 '}';
     }
 
-  public String getUc() {
-    return uc;
-  }
+    public Unidade_Curricular getUc() {
+        return uc;
+    }
 
-  public void setUc(String uc) {
-    this.uc = uc;
-  }
+    public void setUc(Unidade_Curricular uc) {
+        this.uc = uc;
+    }
 
-  public Aula getAula() {
-    return aula;
-  }
+    public Aula getAula() {
+        return aula;
+    }
 
-  public void setAula(Aula aula) {
-    this.aula = aula;
-  }
+    public void setAula(Aula aula) {
+        this.aula = aula;
+    }
 }
 
 

@@ -1,2 +1,2 @@
-Rui Moreira;rmoreira@ufp.edu.pt;0/5/1985 0:0:;Rua dos Carvalhos;0/0/0 14:0:;3;5
-Beatriz Gomes;bgomes@ufp.edu.pt;0/5/1990 0:0:;Rua Julio Pontes;0/0/0 16:30:;2;5
+Beatriz Gomes;bgomes@ufp.edu.pt;10/5/2020 19:26:;Rua Julio Pontes;10/5/2020 19:26:;2;5
+Rui Moreira;rmoreira@ufp.edu.pt;10/5/2020 19:26:;Rua dos Carvalhos;10/5/2020 19:26:;3;5

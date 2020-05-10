@@ -6,10 +6,9 @@ public class Aula {
   private Date hora_fim;
   private Sala sala;
 
-  public Aula(Date hora_inicio, Date hora_fim, Sala sala) {
+  public Aula(Date hora_inicio, Date hora_fim) {
     this.hora_inicio = hora_inicio;
     this.hora_fim = hora_fim;
-    this.sala = sala;
   }
 
   public void modifyTime(Date i, Date f){

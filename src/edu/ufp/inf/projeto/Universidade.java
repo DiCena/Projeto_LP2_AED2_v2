@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -124,19 +126,19 @@ public class Universidade {
         this.alunos = alunos;
     }
 
-    public LinearProbingHashST<Integer, Professor> getProfessores() {
+    public LinearProbingHashST<String, Professor> getProfessores() {
         return professores;
     }
 
-    public void setProfessores(LinearProbingHashST<Integer, Professor> professores) {
+    public void setProfessores(LinearProbingHashST<String, Professor> professores) {
         this.professores = professores;
     }
 
-    public LinearProbingHashST<Integer, Unidade_Curricular> getUnidades_curriculares() {
+    public LinearProbingHashST<String, Unidade_Curricular> getUnidades_curriculares() {
         return unidades_curriculares;
     }
 
-    public void setUnidades_curriculares(LinearProbingHashST<Integer, Unidade_Curricular> unidades_curriculares) {
+    public void setUnidades_curriculares(LinearProbingHashST<String, Unidade_Curricular> unidades_curriculares) {
         this.unidades_curriculares = unidades_curriculares;
     }
 
@@ -146,6 +148,22 @@ public class Universidade {
 
     public void setSalas(LinearProbingHashST<Integer, Sala> salas) {
         this.salas = salas;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public LinearProbingHashST<Integer, Aula> getAulas() {
+        return aulas;
+    }
+
+    public void setAulas(LinearProbingHashST<Integer, Aula> aulas) {
+        this.aulas = aulas;
     }
 
     @Override
@@ -158,11 +176,11 @@ public class Universidade {
                 '}';
     }
 
-    public LinearProbingHashST<Integer, Turma> getTurmas() {
+    public LinearProbingHashST<String, Turma> getTurmas() {
         return turmas;
     }
 
-    public void setTurmas(LinearProbingHashST<Integer, Turma> turmas) {
+    public void setTurmas(LinearProbingHashST<String, Turma> turmas) {
         this.turmas = turmas;
     }
 
@@ -231,7 +249,7 @@ public class Universidade {
             pw = new PrintWriter(fw);
 
 
-            for (Integer key : professores.keys()) {
+            for (String key : professores.keys()) {
                 //Professor(String nome, String email, Date data_nascimento, String morada, Date horario_atendimento, String code, int gabinete)
                 pw.println(professores.get(key).getNome() + ";" + professores.get(key).getEmail() + ";" + professores.get(key).getData_nascimento() + ";"
                         + professores.get(key).getMorada() + ";" + professores.get(key).getHorario_atendimento() + ";"
@@ -254,9 +272,8 @@ public class Universidade {
 
     public void readFileProfessores() {
         In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/Professores.txt");
-        Integer id = 0;
-        if (alunos == null){
-            alunos = new LinearProbingHashST<>();
+        if (professores == null){
+            professores = new LinearProbingHashST<>();
         }
 
         while (!in.isEmpty()) {
@@ -267,11 +284,10 @@ public class Universidade {
             String morada = texto[3];
             String horario_atendimento = texto[4];
             String code = texto[5];
-            Integer gabinete = Integer.parseInt(texto[5]); //cast from string to integer
+            Integer gabinete = Integer.parseInt(texto[6]); //cast from string to integer
 
             Professor professor = new Professor(nome, email, new Date(), morada, new Date(), code, gabinete);
-            professores.put(id, professor);
-            id++;
+            professores.put(code, professor);
         }
     }
 
@@ -286,7 +302,7 @@ public class Universidade {
             System.out.println("FilePrintWriter - main(): encoding = " + fw.getEncoding());
             pw = new PrintWriter(fw);
 
-            for (Integer key : unidades_curriculares.keys()) {
+            for (String key : unidades_curriculares.keys()) {
                 //Unidade_Curricular(String nome, int creditos)
                 pw.println(unidades_curriculares.get(key).getNome() + ";" + unidades_curriculares.get(key).getCreditos());
                 /**for (String key1 : unidades_curriculares.get(key).getTurmas().keys()) {
@@ -311,6 +327,22 @@ public class Universidade {
         }
     }
 
+    public void readFileUC() {
+        In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/UC.txt");
+        if (unidades_curriculares == null){
+            unidades_curriculares = new LinearProbingHashST<>();
+        }
+
+        while (!in.isEmpty()) {
+            String[] texto = in.readLine().split(";");
+            String nome = texto[0];
+            Integer creditos = Integer.parseInt(texto[1]); //cast from string to integer
+
+            Unidade_Curricular unidade_curricular = new Unidade_Curricular(nome, creditos);
+            unidades_curriculares.put(nome, unidade_curricular);
+        }
+    }
+
     public void dumpTurma() {
 
         FileWriter fw = null;
@@ -323,9 +355,9 @@ public class Universidade {
             pw = new PrintWriter(fw);
 
 
-            for (Integer key : turmas.keys()) {
-                //Turma(String codigo, Professor professor, String uc)
-                pw.println(turmas.get(key).getCodigo() + ";" + turmas.get(key).getProfessor() + ";" + turmas.get(key).getUc());
+            for (String key : turmas.keys()) {
+                //Turma(String codigo)
+                pw.println(turmas.get(key).getCodigo());
                 pw.flush();
             }
 
@@ -342,7 +374,22 @@ public class Universidade {
         }
     }
 
-    public void dumpAula() {
+    public void readFileTurma() {
+        In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/Turmas.txt");
+        if (turmas == null){
+            turmas = new LinearProbingHashST<>();
+        }
+
+        while (!in.isEmpty()) {
+            String[] texto = in.readLine().split(";");
+            String codigo = texto[0];
+
+            Turma turma = new Turma(codigo);
+            turmas.put(codigo, turma);
+        }
+    }
+
+    public void dumpAula(){
 
         FileWriter fw = null;
         PrintWriter pw = null;
@@ -355,8 +402,8 @@ public class Universidade {
 
 
             for (Integer key : aulas.keys()) {
-                //Aula(Date hora_inicio, Date hora_fim, Sala sala)
-                pw.println(aulas.get(key).getHora_inicio() + ";" + aulas.get(key).getHora_fim() + ";" + aulas.get(key).getSala());
+                //Aula(Date hora_inicio, Date hora_fim)
+                pw.println(aulas.get(key).getHora_inicio() + ";" + aulas.get(key).getHora_fim());
                 pw.flush();
             }
 
@@ -370,6 +417,27 @@ public class Universidade {
             } catch (IOException ex) {
                 Logger.getLogger(Universidade.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    public void readFileAulas() {
+        In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/Aulas.txt");
+        Integer id = 0;
+        if (aulas == null) {
+            aulas = new LinearProbingHashST<>();
+        }
+
+        while (!in.isEmpty()) {
+            String[] texto = in.readLine().split(";");
+            String hora_inicio = texto[0];
+            String hora_fim = texto[1];
+
+            //SimpleDateFormat formatter = new SimpleDateFormat("hh-nn-e", Locale.ENGLISH);
+            //Date date = formatter.parse(hora_inicio); 
+
+            Aula aula = new Aula(new Date(), new Date());
+            aulas.put(id, aula);
+            id++;
         }
     }
 
@@ -405,4 +473,69 @@ public class Universidade {
         }
     }
 
+    public void readFileSala() {
+        In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/Salas.txt");
+        if (salas == null){
+            salas = new LinearProbingHashST<>();
+        }
+
+        while (!in.isEmpty()) {
+            String[] texto = in.readLine().split(";");
+            Integer numero = Integer.parseInt(texto[0]); //cast from string to integer
+            Integer capacidade = Integer.parseInt(texto[1]); //cast from string to integer
+            Integer numero_tomadas = Integer.parseInt(texto[2]); //cast from string to integer
+            Integer piso = Integer.parseInt(texto[3]); //cast from string to integer
+
+
+            Sala sala = new Sala(numero, capacidade, numero_tomadas, piso);
+            salas.put(numero, sala);
+        }
+    }
+
+
+    public void printLinearProbingPrintAlunos(){
+        for (Integer key : this.getAlunos().keys()) {
+            //Aluno(String nome, String email, Date data_nascimento, String morada, int numero)
+            System.out.println(this.getAlunos().get(key).getNome() + ";" + this.getAlunos().get(key).getEmail() + ";" + this.getAlunos().get(key).getData_nascimento() + ";"
+                    + this.getAlunos().get(key).getMorada() + ";" + this.getAlunos().get(key).getNumero());
+        }
+    }
+
+    public void printLinearProbingPrintProfessor(){
+        for (String key : this.getProfessores().keys()) {
+            //Professor(String nome, String email, Date data_nascimento, String morada, Date horario_atendimento, String code, int gabinete)
+            System.out.println(this.getProfessores().get(key).getNome() + ";" + this.getProfessores().get(key).getEmail() + ";" + this.getProfessores().get(key).getData_nascimento() + ";"
+                    + this.getProfessores().get(key).getMorada() + ";" + this.getProfessores().get(key).getHorario_atendimento()
+                    + ";" + this.getProfessores().get(key).getCode() + ";" + this.getProfessores().get(key).getGabinete());
+        }
+    }
+
+    public void printLinearProbingPrintUC(){
+        for (String key : this.getUnidades_curriculares().keys()) {
+            //Unidade_Curricular(String nome, int creditos)
+            System.out.println(this.getUnidades_curriculares().get(key).getNome() + ";" + this.getUnidades_curriculares().get(key).getCreditos());
+        }
+    }
+
+    public void printLinearProbingPrintTurma(){
+        for (String key : this.getTurmas().keys()) {
+            //Turma(String codigo)
+            System.out.println(this.getTurmas().get(key).getCodigo());
+        }
+    }
+
+    public void printLinearProbingPrintAula(){
+        for (Integer key : this.getAulas().keys()) {
+            //Aula(Date hora_inicio, Date hora_fim)
+            System.out.println(this.getAulas().get(key).getHora_inicio() + ";" + this.getAulas().get(key).getHora_fim());
+        }
+    }
+
+    public void printLinearProbingPrintSala(){
+        for (Integer key : this.getSalas().keys()) {
+
+            System.out.println(this.getSalas().get(key).getNumero() + ";" + this.getSalas().get(key).getCapacidade() + ";" + this.getSalas().get(key).getNumero_tomadas() + ";"
+                    + this.getSalas().get(key).getPiso());
+        }
+    }
 }
