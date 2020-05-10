@@ -16,15 +16,15 @@ public class Universidade {
 
     private LinearProbingHashST<Integer, Aluno> alunos;
 
-    private LinearProbingHashST<Integer, Professor> professores;
+    private LinearProbingHashST<String, Professor> professores;
 
-    private LinearProbingHashST<Integer, Unidade_Curricular> unidades_curriculares;
+    private LinearProbingHashST<String, Unidade_Curricular> unidades_curriculares;
 
     private LinearProbingHashST<Integer, Sala> salas;
 
     private LinearProbingHashST<Integer, Aula> aulas;
 
-    private LinearProbingHashST<Integer, Turma> turmas;
+    private LinearProbingHashST<String, Turma> turmas;
 
 
     public Universidade(String nome) {
