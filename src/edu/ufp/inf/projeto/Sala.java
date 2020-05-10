@@ -2,8 +2,6 @@ package edu.ufp.inf.projeto;
 
 import edu.princeton.cs.algs4.RedBlackBST;
 
-import java.util.ArrayList;
-import java.util.Vector;
 
 public class Sala {
 
@@ -15,6 +13,8 @@ public class Sala {
 
   private int piso;
 
+  private RedBlackBST<Date,Aula> horario;
+
   public Sala(int numero, int capacidade, int numero_tomadas, int piso) {
     this.numero = numero;
     this.capacidade = capacidade;
@@ -22,20 +22,28 @@ public class Sala {
     this.piso = piso;
   }
 
+  public void addAula(Aula a){
+    if(this.isAvailable(a)){
+      horario.put(a.getHora_inicio(), a);
+    }
+  }
 
-  /**public boolean isAvailable(Turma a){
+  public void removerAula(Aula a) {
+    if(horario.get(a.getHora_inicio())==a){
+      horario.delete(a.getHora_inicio());
+    }
+  }
+
+  public boolean isAvailable(Aula a){
     for (Date di :horario.keys()) {
-      Turma ai = horario.get(di);
+      Aula ai = horario.get(di);
       if(a.isInterseptedBy(ai)){
         return false;
       }
     }
     return true;
-  }**/
-
-
-  public void removerAula() {
   }
+
 
   public int getNumero() {
     return numero;
@@ -77,5 +85,13 @@ public class Sala {
             ", \nnumero_tomadas=" + numero_tomadas +
             ", \npiso=" + piso +
             '}';
+  }
+
+  public void setHorario(RedBlackBST<Date, Aula> horario) {
+    this.horario = horario;
+  }
+
+  public RedBlackBST<Date, Aula> getHorario() {
+    return horario;
   }
 }

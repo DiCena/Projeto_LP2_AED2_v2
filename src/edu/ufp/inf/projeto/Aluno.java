@@ -31,16 +31,14 @@ public class Aluno extends Pessoa {
     }
   }
 
-  public Turma removerTurma(String n) {
+  public void removerTurma(String n) {
     Turma t = findTurma(n);
     if (t==null){
       System.out.println("Aluno nao inscrito na turma!");
-      return null;
     }
     else{
       turmas.delete(n);
       horario.delete(t.getAula().getHora_inicio());
-      return t;
     }
   }
 

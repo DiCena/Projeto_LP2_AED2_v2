@@ -18,6 +18,10 @@ public class Turma {
         this.aula = aula;
   }
 
+  /**
+   * adiciona o aluno a st de alunos da turma se o mesmo ainda nao existir na turma, chama tambem a função para adicinar a turma ao aluno
+   * @param a instancia do aluno a ser adicionado
+   */
   public void adicionarAluno(Aluno a) {
     if (findAluno(a.getNumero())==null){
       alunos.put(a.getNumero(),a);
@@ -25,7 +29,12 @@ public class Turma {
     }
   }
 
-  public Aluno removerAluno(String n) {
+  /**
+   * procura o aluno nesta turma e elimina o se existir, tambem chama a função para eliminar a turma do aluno em questao
+   * @param n numero do aluno a eliminar
+   * @return retorna o aluno eliminado ou null se o aluno nao existir
+   */
+  public Aluno removerAluno(int n) {
     Aluno a = findAluno(n);
     if(a!=null){
       alunos.delete(a.getNumero());
@@ -34,10 +43,20 @@ public class Turma {
     return a;
   }
 
+  /**
+   * procura nos alunos desta turma o aluno pelo numero
+   * @param n numero do aluno
+   * @return retorna a classe aluno com o aluno correspondente ou null se o aluno nao existir na turma
+   */
   public Aluno findAluno(int n){
     return alunos.get(n);
   }
 
+  /**
+   * Procura nos alunos desta turma um aluno pelo nome
+   * @param n nome do aluno
+   * @return retorna a classe aluno com o aluno correspondente ou null se o aluno nao existir na turma
+   */
   public Aluno findAluno(String n){
     for (Integer i:alunos.keys()) {
       if(alunos.get(i).getNome()==n){
@@ -45,6 +64,34 @@ public class Turma {
       }
     }
     return null;
+  }
+
+
+  /**
+   * Muda o professor que leciona a cadeira
+   * @param p novo professor a lecionar a cadeira
+   */
+  public void modifyProfessor(Professor p){
+    this.professor.getTurmas().delete(this.getCodigo());
+    this.professor = p;
+    p.getTurmas().put(this.getCodigo(),this);
+  }
+
+  /**
+   * modifica a aula para uma nova, apagando o registo da aula na sala anterior
+   * @param a nova aula
+   */
+  public void modifyAula(Aula a){
+    this.aula.getSala().removerAula(a);
+    this.aula = a;
+  }
+
+  public void safeDelete(){
+    this.professor.getTurmas().delete(this.getCodigo());
+    for (Integer i:alunos.keys()) {
+      alunos.get(i).removerTurma(this.codigo);
+    }
+    this.aula.getSala().removerAula(this.aula);
   }
 
   /**

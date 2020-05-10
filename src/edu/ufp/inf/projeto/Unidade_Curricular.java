@@ -1,5 +1,7 @@
 package edu.ufp.inf.projeto;
 
+import edu.princeton.cs.algs4.LinearProbingHashST;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -9,13 +11,28 @@ public class Unidade_Curricular {
 
   private int creditos;
 
-  private ArrayList<Turma> turmas;
+  private LinearProbingHashST<String, Turma> turmas;
 
   public Unidade_Curricular(String nome, int creditos) {
     this.nome = nome;
     this.creditos = creditos;
   }
 
+  public void addTurma(Turma t, Universidade u){
+    if(u.exists(t)){
+      turmas.put(t.getCodigo(), t);
+    }
+  }
+
+  public void removeTurma(Turma t){
+    if (findTurma(t.getCodigo())!=null){
+      t.safeDelete();
+    }
+  }
+
+  public Turma findTurma(String t){
+    return turmas.get(t);
+  }
 
   public String getNome() {
     return nome;
@@ -33,11 +50,11 @@ public class Unidade_Curricular {
     this.creditos = creditos;
   }
 
-  public ArrayList<Turma> getTurmas() {
+  public LinearProbingHashST<String, Turma> getTurmas() {
     return turmas;
   }
 
-  public void setTurmas(ArrayList<Turma> turmas) {
+  public void setTurmas(LinearProbingHashST<String, Turma> turmas) {
     this.turmas = turmas;
   }
 
