@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,8 @@ public class Universidade {
 
     private LinearProbingHashST<String, Turma> turmas;
 
+    private ArrayList<Object> deleted;
+
 
     public Universidade(String nome) {
         this.nome = nome;
@@ -35,31 +38,51 @@ public class Universidade {
 
     public void remove(Aluno a) {
         if (exists(a)) {
+            for (String si:a.getTurmas().keys()) {
+                a.getTurmas().get(si).getAlunos().delete(a.getNumero());
+            }
             alunos.delete(a.getNumero());
+            deleted.add(a);
         }
     }
 
     public void remove(Professor p) {
         if (exists(p)) {
+            for (String si:p.getTurmas().keys()) {
+                p.getTurmas().get(si).setProfessor(null);
+            }
             professores.delete(p.getCode());
+            deleted.add(p);
         }
     }
 
     public void remove(Unidade_Curricular uc) {
         if (exists(uc)) {
+            for (String si:uc.getTurmas().keys()) {
+                deleted.add(uc.getTurmas().get(si));
+                uc.getTurmas().get(si).safeDelete();
+            }
             unidades_curriculares.delete(uc.getNome());
+            deleted.add(uc);
         }
     }
 
     public void remove(Sala s) {
         if (exists(s)) {
+            for (Date di:s.getHorario().keys()) {
+                deleted.add(s.getHorario().get(di));
+                s.getHorario().get(di).getTurma().setAula(null);
+            }
             salas.delete(s.getNumero());
+            deleted.add(s);
         }
     }
 
     public void remove(Turma t) {
         if (exists(t)) {
+            t.safeDelete();
             turmas.delete(t.getCodigo());
+            deleted.add(t);
         }
     }
 

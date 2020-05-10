@@ -5,10 +5,12 @@ public class Aula {
   private Date hora_inicio;
   private Date hora_fim;
   private Sala sala;
+  private Turma turma;
 
-  public Aula(Date hora_inicio, Date hora_fim) {
+  public Aula(Date hora_inicio, Date hora_fim, Turma t) {
     this.hora_inicio = hora_inicio;
     this.hora_fim = hora_fim;
+    this.turma = t;
   }
 
   public void modifyTime(Date i, Date f){
@@ -46,5 +48,13 @@ public class Aula {
 
   public void setSala(Sala sala) {
     this.sala = sala;
+  }
+
+  public Turma getTurma() {
+    return turma;
+  }
+
+  public void setTurma(Turma turma) {
+    this.turma = turma;
   }
 }

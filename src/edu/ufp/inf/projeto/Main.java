@@ -20,6 +20,12 @@ public class Main{
 
         Sala sala104 = new Sala(5, 80, 5, 1);
 
+        /**
+         *
+         * Alterei aqui como se cria a aula so porque me esqueci de ligar a aula a turma para depois conseguir eliminar uma sala sabendo so
+         * a sala so tens de criar a turma antes da aula e enviar a turma como paramentro ao construtor
+         *
+         * */
         Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2));
         Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3));
 
@@ -30,10 +36,17 @@ public class Main{
         Unidade_Curricular AED = new Unidade_Curricular("AED", 9);
 
         LinearProbingHashST<Integer,Aula> aulas = new LinearProbingHashST<>();
-        aulas.put(0 ,bhi1);
+        /**
+         * Aqui mudei te isto para como deves usar as linear probing e as redblacks, nao es tu que escolhes o primeiro valor
+         * usas um dos paramentros da classe em questao
+         * */
+        aulas.put(bhi1.getSala().getNumero(),bhi1);
 
         LinearProbingHashST<String,Turma> turmaLP = new LinearProbingHashST<>();
-        turmaLP.put("bhi",bhi);
+        /**
+         * Exemplo aqui tambem
+         * */
+        turmaLP.put(bhi.getCodigo(),bhi);
         turmaLP.put("ghe",ghe);
 
         LP.setTurmas(turmaLP);
