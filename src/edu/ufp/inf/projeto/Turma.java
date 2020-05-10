@@ -21,6 +21,7 @@ public class Turma {
   public void adicionarAluno(Aluno a) {
     if (findAluno(a.getNumero())==null){
       alunos.put(a.getNumero(),a);
+      a.adicionarTurma(this);
     }
   }
 
@@ -28,6 +29,7 @@ public class Turma {
     Aluno a = findAluno(n);
     if(a!=null){
       alunos.delete(a.getNumero());
+      a.removerTurma(this.codigo);
     }
     return a;
   }

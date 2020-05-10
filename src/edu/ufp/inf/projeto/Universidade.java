@@ -3,7 +3,9 @@ package edu.ufp.inf.projeto;
 import edu.princeton.cs.algs4.LinearProbingHashST;
 
 
-public abstract class Universidade {
+public class Universidade {
+
+  private String nome;
 
   private LinearProbingHashST<Integer, Aluno> alunos;
 
@@ -14,6 +16,11 @@ public abstract class Universidade {
   private LinearProbingHashST<Integer, Sala> salas;
 
   private LinearProbingHashST<String, Turma> turmas;
+
+
+  public Universidade(String nome) {
+    this.nome = nome;
+  }
 
   public void remove(Aluno a){
     if(exists(a)){
