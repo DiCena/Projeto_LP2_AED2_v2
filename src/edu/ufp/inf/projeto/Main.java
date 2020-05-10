@@ -20,57 +20,45 @@ public class Main{
 
         Sala sala104 = new Sala(5, 80, 5, 1);
 
-        /**
-         *
-         * Alterei aqui como se cria a aula so porque me esqueci de ligar a aula a turma para depois conseguir eliminar uma sala sabendo so
-         * a sala so tens de criar a turma antes da aula e enviar a turma como paramentro ao construtor
-         *
-         * */
-        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2));
-        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3));
-
         Turma bhi = new Turma("bhi");
         Turma ghe = new Turma("ghe");
+
+        Aula bhi1 = new Aula(new Date(16,00,2), new Date(18,00,2), bhi);
+        Aula ghe2 = new Aula (new Date(16,00,3), new Date(18,00,3), ghe);
 
         Unidade_Curricular LP = new Unidade_Curricular("LP", 9);
         Unidade_Curricular AED = new Unidade_Curricular("AED", 9);
 
         LinearProbingHashST<Integer,Aula> aulas = new LinearProbingHashST<>();
-        /**
-         * Aqui mudei te isto para como deves usar as linear probing e as redblacks, nao es tu que escolhes o primeiro valor
-         * usas um dos paramentros da classe em questao
-         * */
         aulas.put(bhi1.getSala().getNumero(),bhi1);
+        aulas.put(ghe2.getSala().getNumero(),ghe2);
 
         LinearProbingHashST<String,Turma> turmaLP = new LinearProbingHashST<>();
-        /**
-         * Exemplo aqui tambem
-         * */
         turmaLP.put(bhi.getCodigo(),bhi);
-        turmaLP.put("ghe",ghe);
+        turmaLP.put(ghe.getCodigo(),ghe);
 
         LP.setTurmas(turmaLP);
 
         LinearProbingHashST<Integer,Aluno> turmaBhi = new LinearProbingHashST<>();
-        turmaBhi.put(0,ana);
-        turmaBhi.put(1,pedro);
+        turmaBhi.put(ana.getNumero(),ana);
+        turmaBhi.put(pedro.getNumero(),pedro);
 
         bhi.setAlunos(turmaBhi);
 
         LinearProbingHashST<String,Unidade_Curricular> uc = new LinearProbingHashST<>();
-        uc.put("0", LP);
-        uc.put("1", AED);
+        uc.put(LP.getNome(), LP);
+        uc.put(AED.getNome(), AED);
 
         LinearProbingHashST<Integer, Sala> salas = new LinearProbingHashST<>();
-        salas.put(1,sala104);
+        salas.put(sala104.getNumero(),sala104);
 
         LinearProbingHashST<String,Professor> professores = new LinearProbingHashST<>();
-        professores.put("0",rui);
-        professores.put("1",beatriz);
+        professores.put(rui.getCode(),rui);
+        professores.put(beatriz.getCode(),beatriz);
 
         LinearProbingHashST<Integer, Aluno> alunos = new LinearProbingHashST<>();
-        alunos.put(0,ana);
-        alunos.put(1,pedro);
+        alunos.put(ana.getNumero(),ana);
+        alunos.put(pedro.getNumero(),pedro);
 
         //ufp.setTurmas(turmaLP);
         //ufp.setAulas(aulas);

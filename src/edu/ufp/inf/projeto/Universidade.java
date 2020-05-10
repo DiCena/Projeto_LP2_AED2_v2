@@ -425,8 +425,8 @@ public class Universidade {
 
 
             for (Integer key : aulas.keys()) {
-                //Aula(Date hora_inicio, Date hora_fim)
-                pw.println(aulas.get(key).getHora_inicio() + ";" + aulas.get(key).getHora_fim());
+                //Aula(Date hora_inicio, Date hora_fim, Turma t)
+                pw.println(aulas.get(key).getHora_inicio() + ";" + aulas.get(key).getHora_fim() + ";" + aulas.get(key).getTurma());
                 pw.flush();
             }
 
@@ -446,6 +446,7 @@ public class Universidade {
     public void readFileAulas() {
         In in = new In("/Users/barbaramagalhaes/IdeaProjects/Projeto_LP2_AED2_v2/src/edu/ufp/inf/projeto/ficheiros/Aulas.txt");
         Integer id = 0;
+
         if (aulas == null) {
             aulas = new LinearProbingHashST<>();
         }
@@ -454,11 +455,12 @@ public class Universidade {
             String[] texto = in.readLine().split(";");
             String hora_inicio = texto[0];
             String hora_fim = texto[1];
+            Turma t = null;
 
             //SimpleDateFormat formatter = new SimpleDateFormat("hh-nn-e", Locale.ENGLISH);
             //Date date = formatter.parse(hora_inicio); 
 
-            Aula aula = new Aula(new Date(), new Date());
+            Aula aula = new Aula(new Date(), new Date(), t);
             aulas.put(id, aula);
             id++;
         }
@@ -550,7 +552,7 @@ public class Universidade {
     public void printLinearProbingPrintAula(){
         for (Integer key : this.getAulas().keys()) {
             //Aula(Date hora_inicio, Date hora_fim)
-            System.out.println(this.getAulas().get(key).getHora_inicio() + ";" + this.getAulas().get(key).getHora_fim());
+            System.out.println(this.getAulas().get(key).getHora_inicio() + ";" + this.getAulas().get(key).getHora_fim() + ";" + this.getAulas().get(key).getTurma());
         }
     }
 
