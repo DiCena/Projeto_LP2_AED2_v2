@@ -79,6 +79,16 @@ public class Professor extends Pessoa {
     return aux;
   }
 
+  public boolean inClass(){
+    Date now = new Date();
+    for (Date di:horario.keys()) {
+      if(now.isBetween(horario.get(di).getHora_inicio(),horario.get(di).getHora_fim())){
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   public void editarAtendimento(Date h) {
     setHorario_atendimento(h);

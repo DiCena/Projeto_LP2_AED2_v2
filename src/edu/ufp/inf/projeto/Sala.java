@@ -44,6 +44,16 @@ public class Sala {
     return true;
   }
 
+  public boolean inClass(){
+    Date now = new Date();
+    for (Date di:horario.keys()) {
+      if(now.isBetween(horario.get(di).getHora_inicio(),horario.get(di).getHora_fim())){
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   public int getNumero() {
     return numero;

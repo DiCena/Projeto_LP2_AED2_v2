@@ -136,6 +136,107 @@ public class Universidade {
         return turmas.get(t.getCodigo()) == t;
     }
 
+    public void now(){
+        int numberTurmas = turmas.size(), numberSalas = salas.size(), numberProfessores = professores.size(), numberAlunos = alunos.size();
+        int nowTurmas = 0, nowSalas = 0, nowProf = 0, nowAlunos = 0;
+
+
+        for (String si:turmas.keys()) {
+            if (turmas.get(si).inClass()){
+                nowTurmas++;
+            }
+        }
+
+        for (Integer i:salas.keys()) {
+            if (salas.get(i).inClass()){
+                nowSalas++;
+            }
+        }
+
+        for (String si:professores.keys()) {
+            if (professores.get(si).inClass()){
+                nowProf++;
+            }
+        }
+
+        for (Integer i:alunos.keys()) {
+            if (alunos.get(i).inClass()){
+                nowAlunos++;
+            }
+        }
+
+        System.out.println("\nNumero de turmas em aula: " + nowTurmas + "/" + numberTurmas +
+                "\nNumero de salas ocupadas: " + nowSalas + "/" + numberSalas +
+                "\nNumero de Professores em aulas: " + nowProf+ "/" + numberProfessores +
+                "\nNumero de Alunos em aulas: " + nowAlunos + "/" + numberAlunos);
+
+
+    }
+
+    //todas as salas livres num determinado horário
+    public LinearProbingHashST<Integer, Sala> salasLivres(Date d){
+        LinearProbingHashST<Integer, Sala> livres = new LinearProbingHashST<>();
+        for (Integer key:salas.keys()) {
+            if(salas.get(key).isAvailable(new Aula(d,d, new Sala(0,0,0,0),new Turma("test")))){
+                livres.put(salas.get(key).getNumero(),salas.get(key));
+            }
+        }
+        return livres;
+    }
+
+    //todos os professores de uma unidade curricular
+    public LinearProbingHashST<String, Professor> findAllProfessorsOfUC(String nomeUnidadeCurricular){
+        LinearProbingHashST<String, Professor> results = new LinearProbingHashST<>();
+        for (String keyUC : unidades_curriculares.keys()) {
+            System.out.println("Pesquisa de professores: " + unidades_curriculares.get(keyUC).getNome());
+            if (unidades_curriculares.get(keyUC).getNome().equals(nomeUnidadeCurricular)){
+                for (String keyT : unidades_curriculares.get(keyUC).getTurmas().keys()){
+                    if(unidades_curriculares.get(keyUC).getTurmas().get(keyT).getProfessor() != null)
+                    results.put(unidades_curriculares.get(keyUC).getTurmas().get(keyT).getProfessor().getCode(),unidades_curriculares.get(keyUC).getTurmas().get(keyT).getProfessor());
+                }
+                return results;
+            }
+        }
+        return null;
+    }
+
+    //todas as turmas de um professor
+    public void printAllClasses(){
+        for (String si:turmas.keys()) {
+            System.out.println(turmas.get(si).getCodigo() + "\n");
+        }
+    }
+
+    //pesquisas de salas por diferentes critérios (ocupação, número de tomadas, piso)
+    public LinearProbingHashST<Integer, Sala> findAllRoomBySizBiggerThan(Integer value) {
+        LinearProbingHashST<Integer, Sala> results = new LinearProbingHashST<>();
+        for (Integer key : salas.keys()) {
+            if (salas.get(key).getCapacidade() >= value) {
+                results.put(salas.get(key).getNumero(), salas.get(key));
+            }
+        }
+        return results;
+    }
+
+    public LinearProbingHashST<Integer, Sala> findAllRoomByPowerSockets(Integer value) {
+        LinearProbingHashST<Integer, Sala> results = new LinearProbingHashST<>();
+        for (Integer key : salas.keys()) {
+            if (salas.get(key).getNumero_tomadas() >= value) {
+                results.put(salas.get(key).getNumero(), salas.get(key));
+            }
+        }
+        return results;
+    }
+
+    public LinearProbingHashST<Integer, Sala> findAllRoomByFloor(Integer value) {
+        LinearProbingHashST<Integer, Sala> results = new LinearProbingHashST<>();
+        for (Integer key : salas.keys()) {
+            if (salas.get(key).getPiso() == value) {
+                results.put(salas.get(key).getNumero(), salas.get(key));
+            }
+        }
+        return results;
+    }
 
     /**
      * Get & Sets
@@ -522,45 +623,48 @@ public class Universidade {
     public void printLinearProbingPrintAlunos(){
         for (Integer key : this.getAlunos().keys()) {
             //Aluno(String nome, String email, Date data_nascimento, String morada, int numero)
-            System.out.println(this.getAlunos().get(key).getNome() + ";" + this.getAlunos().get(key).getEmail() + ";" + this.getAlunos().get(key).getData_nascimento() + ";"
-                    + this.getAlunos().get(key).getMorada() + ";" + this.getAlunos().get(key).getNumero());
+            System.out.println("Nome do aluno:" + this.getAlunos().get(key).getNome() + "\n\tEmail: " + this.getAlunos().get(key).getEmail()
+                    + "\n\tData de nascimento:" + this.getAlunos().get(key).getData_nascimento() + "\n\tMorada: "
+                    + this.getAlunos().get(key).getMorada() + "\n\tNumero aluno: " + this.getAlunos().get(key).getNumero());
         }
     }
 
     public void printLinearProbingPrintProfessor(){
         for (String key : this.getProfessores().keys()) {
             //Professor(String nome, String email, Date data_nascimento, String morada, Date horario_atendimento, String code, int gabinete)
-            System.out.println(this.getProfessores().get(key).getNome() + ";" + this.getProfessores().get(key).getEmail() + ";" + this.getProfessores().get(key).getData_nascimento() + ";"
-                    + this.getProfessores().get(key).getMorada() + ";" + this.getProfessores().get(key).getHorario_atendimento()
-                    + ";" + this.getProfessores().get(key).getCode() + ";" + this.getProfessores().get(key).getGabinete());
+            System.out.println("Nome professor: " + this.getProfessores().get(key).getNome() + "\n\tEmail: " + this.getProfessores().get(key).getEmail()
+                    + "\n\t Data de nacismento:" + this.getProfessores().get(key).getData_nascimento() + "\n\tMorada: "
+                    + this.getProfessores().get(key).getMorada() + "\n\tHorário de atendimento: " + this.getProfessores().get(key).getHorario_atendimento()
+                    + "\n\tCódigo: " + this.getProfessores().get(key).getCode() + "\n\tGabinete: " + this.getProfessores().get(key).getGabinete());
         }
     }
 
     public void printLinearProbingPrintUC(){
         for (String key : this.getUnidades_curriculares().keys()) {
             //Unidade_Curricular(String nome, int creditos)
-            System.out.println(this.getUnidades_curriculares().get(key).getNome() + ";" + this.getUnidades_curriculares().get(key).getCreditos());
+            System.out.println("Nome UC: " + this.getUnidades_curriculares().get(key).getNome() + "\n\tCreditos: " + this.getUnidades_curriculares().get(key).getCreditos());
         }
     }
 
     public void printLinearProbingPrintTurma(){
         for (String key : this.getTurmas().keys()) {
             //Turma(String codigo)
-            System.out.println(this.getTurmas().get(key).getCodigo());
+            System.out.println("Código da turma: " + this.getTurmas().get(key).getCodigo());
         }
     }
 
     public void printLinearProbingPrintAula(){
         for (Integer key : this.getAulas().keys()) {
             //Aula(Date hora_inicio, Date hora_fim)
-            System.out.println(this.getAulas().get(key).getHora_inicio() + ";" + this.getAulas().get(key).getHora_fim() + ";" + this.getAulas().get(key).getTurma());
+            System.out.println("Hora de inicio:" + this.getAulas().get(key).getHora_inicio() + "\n\tHora de fim:" + this.getAulas().get(key).getHora_fim() + "\n\tTurma: " + this.getAulas().get(key).getTurma());
         }
     }
 
     public void printLinearProbingPrintSala(){
         for (Integer key : this.getSalas().keys()) {
 
-            System.out.println(this.getSalas().get(key).getNumero() + ";" + this.getSalas().get(key).getCapacidade() + ";" + this.getSalas().get(key).getNumero_tomadas() + ";"
+            System.out.println("Numero sala: " + this.getSalas().get(key).getNumero() + "\n\tCapacidade: " + this.getSalas().get(key).getCapacidade() +
+                    "\n\tNumero de tomadas: " + this.getSalas().get(key).getNumero_tomadas() + "\n\tPiso: "
                     + this.getSalas().get(key).getPiso());
         }
     }

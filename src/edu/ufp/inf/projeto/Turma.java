@@ -92,6 +92,10 @@ public class Turma {
     this.aula.getSala().removerAula(this.aula);
   }
 
+    public boolean inClass(){
+        return new Date().isBetween(this.aula.getHora_inicio(), this.aula.getHora_fim());
+    }
+
   /**
    *
    * Get & Set
@@ -147,6 +151,8 @@ public class Turma {
     public void setAula(Aula aula) {
         this.aula = aula;
     }
+
+
 }
 
 
